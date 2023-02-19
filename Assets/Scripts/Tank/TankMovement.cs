@@ -51,7 +51,10 @@ public class TankMovement : MonoBehaviour
         m_TurnAxisName = "Horizontal" + m_PlayerNumber;
 
         // Store the original pitch of the audio source.
-        m_OriginalPitch = m_MovementAudio.pitch;
+        if (m_MovementAudio)
+        {
+            m_OriginalPitch = m_MovementAudio.pitch;
+        }
     }
 
 
@@ -67,6 +70,11 @@ public class TankMovement : MonoBehaviour
 
     private void EngineAudio()
     {
+        if (!m_MovementAudio)
+        {
+            return;
+        }
+
         // If there is no input (the tank is stationary)...
         if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
         {

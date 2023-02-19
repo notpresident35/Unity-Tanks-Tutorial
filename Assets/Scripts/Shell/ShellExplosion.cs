@@ -58,7 +58,10 @@ public class ShellExplosion : MonoBehaviour
         m_ExplosionParticles.Play();
 
         // Play the explosion sound effect.
-        m_ExplosionAudio.Play();
+        if (m_ExplosionAudio)
+        {
+            m_ExplosionAudio.Play ();
+        }
 
         // Once the particles have finished, destroy the gameobject they are on.
         Destroy(m_ExplosionParticles.gameObject, m_ExplosionParticles.duration);
