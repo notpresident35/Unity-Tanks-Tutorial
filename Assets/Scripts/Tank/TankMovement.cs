@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 
 public class TankMovement : MonoBehaviour
@@ -6,9 +6,13 @@ public class TankMovement : MonoBehaviour
     public int m_PlayerNumber = 1;              // Used to identify which tank belongs to which player.  This is set by this tank's manager.
     public float m_Speed = 12f;                 // How fast the tank moves forward and back.
     public float m_TurnSpeed = 180f;            // How fast the tank turns in degrees per second.
-    public AudioSource m_MovementAudio;         // Reference to the audio source used to play engine sounds. NB: different to the shooting audio source.
-    public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
-    public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
+
+
+    // TODO: Reference to the audio source used to play engine sounds. NB: different to the shooting audio source.
+    // TODO: Audio to play when the tank isn't moving.
+    // TODO: Audio to play when the tank is moving.
+
+
     public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
 
 
@@ -49,12 +53,6 @@ public class TankMovement : MonoBehaviour
         // The axes names are based on player number.
         m_MovementAxisName = "Vertical" + m_PlayerNumber;
         m_TurnAxisName = "Horizontal" + m_PlayerNumber;
-
-        // Store the original pitch of the audio source.
-        if (m_MovementAudio)
-        {
-            m_OriginalPitch = m_MovementAudio.pitch;
-        }
     }
 
 
@@ -68,36 +66,20 @@ public class TankMovement : MonoBehaviour
     }
 
 
+
+
+    // TODO: Complete this function
+    
+    
     private void EngineAudio()
     {
-        if (!m_MovementAudio)
-        {
-            return;
-        }
-
         // If there is no input (the tank is stationary)...
-        if (Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
-        {
             // ... and if the audio source is currently playing the driving clip...
-            if (m_MovementAudio.clip == m_EngineDriving)
-            {
-                // ... change the clip to idling and play it.
-                m_MovementAudio.clip = m_EngineIdling;
-                m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
-                m_MovementAudio.Play();
-            }
-        }
-        else
-        {
-            // Otherwise if the tank is moving and if the idling clip is currently playing...
-            if (m_MovementAudio.clip == m_EngineIdling)
-            {
+                // ... change the clip to idling, and play it.
+
+        // Otherwise, the tank is moving
+            // if the idling clip is currently playing...
                 // ... change the clip to driving and play.
-                m_MovementAudio.clip = m_EngineDriving;
-                m_MovementAudio.pitch = Random.Range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
-                m_MovementAudio.Play();
-            }
-        }
     }
 
 
