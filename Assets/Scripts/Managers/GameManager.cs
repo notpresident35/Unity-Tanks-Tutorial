@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 
 public class GameManager : MonoBehaviour
@@ -13,12 +14,19 @@ public class GameManager : MonoBehaviour
     public GameObject m_TankPrefab;             // Reference to the prefab the players will control.
     public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks.
 
+    public Slider m_VolumeSlider;
+    
+
+    // TODO: Get reference to audio source and/or mixer
+
+
 
     private int m_RoundNumber;                  // Which round the game is currently on.
     private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
     private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
     private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
     private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won.
+    private bool m_GamePaused;
 
 
     private void Start()
@@ -32,6 +40,37 @@ public class GameManager : MonoBehaviour
 
         // Once the tanks have been created and the camera is using them as targets, start the game.
         StartCoroutine(GameLoop());
+    }
+
+
+    
+    
+    // TODO: Add audio effects :O
+    
+    
+    void TogglePause(bool pause)
+    {
+        m_GamePaused = pause;
+        Time.timeScale = m_GamePaused ? 0 : 1;
+        if (m_GamePaused)
+        {
+            m_MessageText.text = "Paused";
+            m_VolumeSlider.gameObject.SetActive(true);
+        } else
+        {
+            m_MessageText.text = string.Empty;
+            m_VolumeSlider.gameObject.SetActive(false);
+        }
+    }
+
+
+
+    // TODO: Set volume from slider
+
+
+    public void SetVolume(float volume)
+    {
+        
     }
 
 
@@ -123,6 +162,10 @@ public class GameManager : MonoBehaviour
         while (!OneTankLeft())
         {
             // ... return on the next frame.
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                TogglePause(!m_GamePaused);
+            }
             yield return null;
         }
     }
